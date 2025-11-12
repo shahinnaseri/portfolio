@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shahin Naseri - Frontend Developer & UI/UX Designer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0a0a;
+            --primary-light: #ffffff;
+            --accent-1: #ffffff;
+            --accent-2: #000000;
+            --accent-3: #888888;
+            --text-dark: #e0e0e0;
+            --text-light: #333333;
+            --card-dark: #1a1a1a;
+            --card-light: #f5f5f5;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Disable cursor on mobile/tablet */
+        @media (min-width: 769px) {
+            * {
+                cursor: none;
+            }
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 200;
+            background-color: var(--primary-dark);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            transition: var(--transition);
+            line-height: 1.7;
+            letter-spacing: 0.3px;
+        }
+
+        body.light-mode {
+            background-color: var(--primary-light);
+            color: var(--text-light);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Custom Cursor - Liquid Effect */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-1);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s, width 0.3s, height 0.3s;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-1);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s, width 0.3s, height 0.3s;
+        }
+
+        .cursor.hover {
+            width: 40px;
+            height: 40px;
+            border-color: var(--accent-1);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .cursor-follower.hover {
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-1);
+        }
+
+        .light-mode .cursor {
+            border-color: var(--accent-2);
+        }
+
+        .light-mode .cursor-follower {
+            background-color: var(--accent-2);
+        }
+
+        /* Floating Particles - Black and White */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent-1);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        .light-mode .particle {
+            background: var(--accent-2);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+        }
+
+        /* Side Navigation */
+        .side-nav {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0.7;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+        }
+
+        .nav-item:hover {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+
+        .nav-item.active .nav-dot {
+            background: var(--accent-3);
+            transform: scale(1.3);
+        }
+
+        .nav-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: var(--transition);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .nav-text {
+            color: var(--text-light);
+        }
+
+        .side-nav:hover .nav-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .light-mode .nav-dot {
+            background: var(--accent-2);
+        }
+
+        .light-mode .nav-item.active .nav-dot {
+            background: var(--accent-3);
+        }
+
+        /* Language Selection */
+        .language-selection {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-2) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .light-mode .language-selection {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-1) 100%);
+            color: var(--text-light);
+        }
+
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-section h1 {
+            font-size: 5.5rem;
+            margin-bottom: 20px;
+            line-height: 1;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .light-mode .welcome-section h1 {
+            color: var(--text-light);
+        }
+
+        .welcome-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--accent-1);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .light-mode .welcome-section h2 {
+            color: var(--accent-2);
+        }
+
+        .welcome-section p {
+            font-size: 1.3rem;
+            max-width: 500px;
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .language-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .language-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .language-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid white;
+            color: white;
+            padding: 18px 30px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .language-btn {
+            background: rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--text-light);
+            color: var(--text-light);
+        }
+
+        .language-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .language-btn:hover::before {
+            left: 100%;
+        }
+
+        .language-btn:hover {
+            background: white;
+            color: var(--accent-2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .light-mode .language-btn:hover {
+            background: var(--text-light);
+            color: var(--primary-light);
+        }
+
+        /* CV Content */
+        .cv-content {
+            display: none;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 100px 50px 50px 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            background-color: var(--primary-dark);
+            text-align: center;
+        }
+
+        .light-mode .section {
+            background-color: var(--primary-light);
+        }
+
+        /* Header Section */
+        .header-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            z-index: 2;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-3) 100%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .light-mode .profile-img {
+            border-color: var(--accent-2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .profile-placeholder {
+            font-size: 4rem;
+            color: white;
+        }
+
+        .header-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .name {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .name {
+            color: var(--text-light);
+        }
+
+        .title {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .title {
+            color: var(--accent-2);
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            max-width: 600px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-item i {
+            color: var(--accent-3);
+        }
+
+        /* Section Styling */
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: var(--accent-1);
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .section-title {
+            color: var(--accent-2);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent-3);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background: var(--card-dark);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .light-mode .skill-category {
+            background: var(--card-light);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .skill-category h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            justify-content: center;
+        }
+
+        .light-mode .skill-category h3 {
+            color: var(--accent-2);
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        .light-mode .skill-list li {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .skill-list li:hover {
+            transform: translateX(10px);
+            color: var(--accent-3);
+        }
+
+        .skill-list li i {
+            color: var(--accent-3);
+        }
+
+        /* Languages Section */
+        .languages-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .language-item {
+            background: var(--card-dark);
+            border-radius: 10px;
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 250px;
+        }
+
+        .light-mode .language-item {
+            background: var(--card-light);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .language-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .language-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--accent-1);
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .language-item h3 {
+            color: var(--accent-2);
+        }
+
+        .language-level {
+            font-size: 1rem;
+            color: var(--accent-3);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        /* Education & Experience Sections */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--accent-1);
+        }
+
+        .light-mode .timeline::before {
+            background: var(--accent-2);
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            padding: 0 30px;
+            position: relative;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-3);
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -9px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -9px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--accent-1);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .item-title {
+            color: var(--accent-2);
+        }
+
+        .item-date {
+            color: var(--accent-3);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .item-subtitle {
+            font-style: italic;
+            margin-bottom: 10px;
+            opacity: 0.8;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-item p {
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card-dark);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .light-mode .project-card {
+            background: var(--card-light);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-3) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--accent-1);
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .light-mode .project-title {
+            color: var(--accent-2);
+        }
+
+        .project-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .tech-tag {
+            background: var(--accent-3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Theme Toggle & Language Switcher */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            background: var(--accent-1);
+            color: var(--accent-2);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: var(--accent-3);
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 30px;
+            right: 100px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: var(--accent-1);
+            color: var(--accent-2);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .lang-btn:hover {
+            background: var(--accent-3);
+        }
+
+        /* Section Guide */
+        .section-guide {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-dark);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 90;
+            max-width: 800px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .light-mode .section-guide {
+            background: var(--card-light);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .guide-items {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .guide-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .guide-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-1);
+        }
+
+        .light-mode .guide-dot {
+            background: var(--accent-2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .section {
+                padding: 100px 30px 50px 100px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-info {
+                justify-content: center;
+            }
+            
+            .language-selection {
+                flex-direction: column;
+            }
+            
+            .welcome-section, .language-section {
+                padding: 40px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 100px 20px 50px 20px;
+            }
+            
+            .side-nav {
+                display: none;
+            }
+            
+            .language-switcher {
+                top: 90px;
+                right: 20px;
+            }
+            
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .section-guide {
+                display: none;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+                text-align: left;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                left: 0;
+                text-align: left;
+            }
+            
+            .timeline-item::before {
+                left: 21px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+    
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Language Selection Screen -->
+    <div class="language-selection" id="languageSelection">
+        <div class="welcome-section">
+            <h1>HI</h1>
+            <h2>This is Shahin Naseri</h2>
+            <p>Let me guide you through my professional journey and skills as a Frontend Developer & UI/UX Designer.</p>
+        </div>
+        <div class="language-section">
+            <h3>Choose Your Language</h3>
+            <div class="language-options">
+                <button class="language-btn" data-lang="en">
+                    <i class="fas fa-globe"></i> English
+                </button>
+                <button class="language-btn" data-lang="de">
+                    <i class="fas fa-globe"></i> Deutsch (German)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Content (initially hidden) -->
+    <div class="cv-content" id="cvContent">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="de">DE</button>
+        </div>
+
+        <!-- Side Navigation -->
+        <div class="side-nav">
+            <div class="nav-item active" data-section="header">
+                <div class="nav-dot"></div>
+                <div class="nav-text">About Me</div>
+            </div>
+            <div class="nav-item" data-section="skills">
+                <div class="nav-dot"></div>
+                <div class="nav-text">Skills</div>
+            </div>
+            <div class="nav-item" data-section="languages">
+                <div class="nav-dot"></div>
+                <div class="nav-text">Languages</div>
+            </div>
+            <div class="nav-item" data-section="education">
+                <div class="nav-dot"></div>
+                <div class="nav-text">Education</div>
+            </div>
+            <div class="nav-item" data-section="freelance">
+                <div class="nav-dot"></div>
+                <div class="nav-text">Experience</div>
+            </div>
+            <div class="nav-item" data-section="projects">
+                <div class="nav-dot"></div>
+                <div class="nav-text">Projects</div>
+            </div>
+        </div>
+
+        <!-- Section Guide -->
+        <div class="section-guide">
+            <div class="guide-items">
+                <div class="guide-item">
+                    <div class="guide-dot"></div>
+                    <span>About Me</span>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-dot"></div>
+                    <span>Skills</span>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-dot"></div>
+                    <span>Languages</span>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-dot"></div>
+                    <span>Education</span>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-dot"></div>
+                    <span>Experience</span>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-dot"></div>
+                    <span>Projects</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header & About Section -->
+        <section class="section header-section" id="header">
+            <div class="header-content">
+                <div class="profile-img">
+                    <div class="profile-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="header-text">
+                    <h1 class="name" id="name">Shahin Naseri</h1>
+                    <p class="title" id="title">Frontend Developer & UI/UX Designer</p>
+                    <div class="about-text" id="aboutText">
+                        I'm a curious and creative problem solver with strong analytical skills. Challenges motivate me, and I enjoy analyzing complex relationships to develop innovative solutions. My goal is to combine analytical thinking with creative design to create new perspectives and sustainable solutions.
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-birthday-cake"></i>
+                            <span id="birthday">February 28, 1998</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span id="phone">+436604054056</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span id="email">shahin7naseri@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section" id="skills">
+            <h2 class="section-title" id="skillsTitle">Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>
+                        <i class="fas fa-code"></i>
+                        <span id="programmingTitle">Programming & Markup</span>
+                    </h3>
+                    <ul class="skill-list" id="programmingSkills">
+                        <li><i class="fab fa-html5"></i> HTML5</li>
+                        <li><i class="fab fa-css3-alt"></i> CSS3</li>
+                        <li><i class="fab fa-js"></i> JavaScript (ES6+)</li>
+                        <li><i class="fas fa-code"></i> jQuery</li>
+                        <li><i class="fab fa-sass"></i> SASS/SCSS</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>
+                        <i class="fas fa-layer-group"></i>
+                        <span id="frameworksTitle">Frameworks & Libraries</span>
+                    </h3>
+                    <ul class="skill-list" id="frameworksSkills">
+                        <li><i class="fab fa-bootstrap"></i> Bootstrap</li>
+                        <li><i class="fas fa-wind"></i> Tailwind</li>
+                        <li><i class="fas fa-puzzle-piece"></i> jQuery UI</li>
+                        <li><i class="fas fa-exchange-alt"></i> AJAX</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>
+                        <i class="fas fa-pencil-ruler"></i>
+                        <span id="designTitle">UI/UX Design</span>
+                    </h3>
+                    <ul class="skill-list" id="designSkills">
+                        <li><i class="fas fa-users"></i> User Research</li>
+                        <li><i class="fas fa-palette"></i> Visual Design</li>
+                        <li><i class="fas fa-user-friends"></i> User Persona & Stories</li>
+                        <li><i class="fas fa-project-diagram"></i> Wireframes</li>
+                        <li><i class="fas fa-route"></i> Journey Mapping</li>
+                        <li><i class="fas fa-film"></i> Storyboarding</li>
+                        <li><i class="fas fa-cube"></i> Prototyping</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>
+                        <i class="fas fa-tools"></i>
+                        <span id="toolsTitle">Tools & Platforms</span>
+                    </h3>
+                    <ul class="skill-list" id="toolsSkills">
+                        <li><i class="fab fa-figma"></i> Figma</li>
+                        <li><i class="fab fa-wordpress"></i> WordPress</li>
+                        <li><i class="fas fa-cube"></i> Elementor</li>
+                        <li><i class="fas fa-shopping-cart"></i> WooCommerce</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Languages Section -->
+        <section class="section" id="languages">
+            <h2 class="section-title" id="languagesTitle">Languages</h2>
+            <div class="languages-container">
+                <div class="language-item">
+                    <h3>English</h3>
+                    <p class="language-level">C1</p>
+                </div>
+                <div class="language-item">
+                    <h3>German</h3>
+                    <p class="language-level">A2/B1</p>
+                </div>
+                <div class="language-item">
+                    <h3>Kurdish</h3>
+                    <p class="language-level">Native</p>
+                </div>
+                <div class="language-item">
+                    <h3>Persian</h3>
+                    <p class="language-level">Native</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="section" id="education">
+            <h2 class="section-title" id="educationTitle">Education</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="edu1Title">UI/UX Design</div>
+                        <div class="item-date" id="edu1Date">2024</div>
+                    </div>
+                    <div class="item-subtitle" id="edu1Subtitle">40-hour International Course</div>
+                    <p id="edu1Description">I completed the Tehran Institute of Technology with 98/100 as the top of the class and a major project as the final exam.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="edu2Title">Web Design I (HTML5, CSS3 With Dreamweaver)</div>
+                        <div class="item-date" id="edu2Date">2024</div>
+                    </div>
+                    <div class="item-subtitle" id="edu2Subtitle">58-hour International Course</div>
+                    <p id="edu2Description">I completed the Tehran Institute of Technology with 94/100 as the top of the class and a major project as the final exam.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="edu3Title">Online Web Design II (Responsive Design With Bootstrap, Less & Sass)</div>
+                        <div class="item-date" id="edu3Date">2024</div>
+                    </div>
+                    <div class="item-subtitle" id="edu3Subtitle">34-hour International Course</div>
+                    <p id="edu3Description">I completed the Tehran Institute of Technology with 98/100 as the top of the class and a major project as the final exam.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="edu4Title">Web Design III (JavaScript & jQuery & Ajax)</div>
+                        <div class="item-date" id="edu4Date">2025</div>
+                    </div>
+                    <div class="item-subtitle" id="edu4Subtitle">58-hour International Course (In Progress)</div>
+                    <p id="edu4Description">This course is still ongoing and will be completed in one month. The certificate will be awarded once the complete project is submitted.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Freelance Jobs Section -->
+        <section class="section" id="freelance">
+            <h2 class="section-title" id="freelanceTitle">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="job1Title">Selenweb</div>
+                        <div class="item-date" id="job1Date">Mar 2024</div>
+                    </div>
+                    <div class="item-subtitle" id="job1Subtitle">WordPress Developer, Logo Designer, UI/UX Designer</div>
+                    <p id="job1Description">UI/UX design, creation of a custom logo, website development with WordPress and performance optimization.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="job2Title">KarejBoxing</div>
+                        <div class="item-date" id="job2Date">Oct 2024</div>
+                    </div>
+                    <div class="item-subtitle" id="job2Subtitle">WordPress Developer, Logo Designer, UI/UX Designer</div>
+                    <p id="job2Description">UI/UX design, creation of a custom logo, website development with WordPress and performance optimization.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <div class="item-title" id="job3Title">Forcemuscle</div>
+                        <div class="item-date" id="job3Date">Nov 2024</div>
+                    </div>
+                    <div class="item-subtitle" id="job3Subtitle">Frontend Developer / WordPress Developer</div>
+                    <p id="job3Description">Analysis and resolution of problems in the code of an existing website, improvement of website performance and functionality.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Class Projects Section -->
+        <section class="section" id="projects">
+            <h2 class="section-title" id="projectsTitle">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title" id="project1Title">Microsoft</h3>
+                        <p class="project-description" id="project1Desc">Development of a fully responsive website with Sass, Flexbox and Media Queries. Use of Compass for simplified CSS management and CSS nesting for better organization. CSS optimization by compressing stylesheets for faster loading times.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Sass</span>
+                            <span class="tech-tag">Flexbox</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title" id="project2Title">Apple</h3>
+                        <p class="project-description" id="project2Desc">Development of a fully responsive website with Sass, Flexbox and Media Queries. Use of Compass for simplified CSS management and CSS nesting for better organization. CSS optimization by compressing stylesheets for faster loading times.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Sass</span>
+                            <span class="tech-tag">Flexbox</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Language content data
+        const content = {
+            en: {
+                name: "Shahin Naseri",
+                title: "Frontend Developer & UI/UX Designer",
+                birthday: "February 28, 1998",
+                phone: "+436604054056",
+                email: "shahin7naseri@gmail.com",
+                aboutText: "I'm a curious and creative problem solver with strong analytical skills. Challenges motivate me, and I enjoy analyzing complex relationships to develop innovative solutions. My goal is to combine analytical thinking with creative design to create new perspectives and sustainable solutions.",
+                skillsTitle: "Skills",
+                programmingTitle: "Programming & Markup",
+                frameworksTitle: "Frameworks & Libraries",
+                designTitle: "UI/UX Design",
+                toolsTitle: "Tools & Platforms",
+                languagesTitle: "Languages",
+                educationTitle: "Education",
+                edu1Title: "UI/UX Design",
+                edu1Date: "2024",
+                edu1Subtitle: "40-hour International Course",
+                edu1Description: "I completed the Tehran Institute of Technology with 98/100 as the top of the class and a major project as the final exam.",
+                edu2Title: "Web Design I (HTML5, CSS3 With Dreamweaver)",
+                edu2Date: "2024",
+                edu2Subtitle: "58-hour International Course",
+                edu2Description: "I completed the Tehran Institute of Technology with 94/100 as the top of the class and a major project as the final exam.",
+                edu3Title: "Online Web Design II (Responsive Design With Bootstrap, Less & Sass)",
+                edu3Date: "2024",
+                edu3Subtitle: "34-hour International Course",
+                edu3Description: "I completed the Tehran Institute of Technology with 98/100 as the top of the class and a major project as the final exam.",
+                edu4Title: "Web Design III (JavaScript & jQuery & Ajax)",
+                edu4Date: "2025",
+                edu4Subtitle: "58-hour International Course (In Progress)",
+                edu4Description: "This course is still ongoing and will be completed in one month. The certificate will be awarded once the complete project is submitted.",
+                freelanceTitle: "Experience",
+                job1Title: "Selenweb",
+                job1Date: "Mar 2024",
+                job1Subtitle: "WordPress Developer, Logo Designer, UI/UX Designer",
+                job1Description: "UI/UX design, creation of a custom logo, website development with WordPress and performance optimization.",
+                job2Title: "KarejBoxing",
+                job2Date: "Oct 2024",
+                job2Subtitle: "WordPress Developer, Logo Designer, UI/UX Designer",
+                job2Description: "UI/UX design, creation of a custom logo, website development with WordPress and performance optimization.",
+                job3Title: "Forcemuscle",
+                job3Date: "Nov 2024",
+                job3Subtitle: "Frontend Developer / WordPress Developer",
+                job3Description: "Analysis and resolution of problems in the code of an existing website, improvement of website performance and functionality.",
+                projectsTitle: "Projects",
+                project1Title: "Microsoft",
+                project1Desc: "Development of a fully responsive website with Sass, Flexbox and Media Queries. Use of Compass for simplified CSS management and CSS nesting for better organization. CSS optimization by compressing stylesheets for faster loading times.",
+                project2Title: "Apple",
+                project2Desc: "Development of a fully responsive website with Sass, Flexbox and Media Queries. Use of Compass for simplified CSS management and CSS nesting for better organization. CSS optimization by compressing stylesheets for faster loading times."
+            },
+            de: {
+                name: "Shahin Naseri",
+                title: "Frontend-Entwickler & UI/UX-Designer",
+                birthday: "28. Februar 1998",
+                phone: "+436604054056",
+                email: "shahin7naseri@gmail.com",
+                aboutText: "Ich bin ein neugieriger und kreativer Problemlöser mit starken analytischen Fähigkeiten. Herausforderungen motivieren mich, und ich analysiere gerne komplexe Zusammenhänge, um innovative Lösungen zu entwickeln. Mein Ziel ist es, analytisches Denken mit kreativem Gestalten zu verbinden, um neue Perspektiven und nachhaltige Lösungen zu schaffen.",
+                skillsTitle: "Fähigkeiten",
+                programmingTitle: "Programmierung & Markup",
+                frameworksTitle: "Frameworks & Bibliotheken",
+                designTitle: "UI/UX Design",
+                toolsTitle: "Werkzeuge & Plattformen",
+                languagesTitle: "Sprachen",
+                educationTitle: "Ausbildung",
+                edu1Title: "UI/UX Design",
+                edu1Date: "2024",
+                edu1Subtitle: "40-stündiger internationaler Kurs",
+                edu1Description: "Ich habe das Tehran Institute of Technology mit 98/100 als Jahrgangsbester und einem großen Projekt als Abschlussprüfung abgeschlossen.",
+                edu2Title: "Webdesign I (HTML5, CSS3 mit Dreamweaver)",
+                edu2Date: "2024",
+                edu2Subtitle: "58-stündiger internationaler Kurs",
+                edu2Description: "Ich habe das Tehran Institute of Technology mit 94/100 als Jahrgangsbester und einem großen Projekt als Abschlussprüfung abgeschlossen.",
+                edu3Title: "Online Webdesign II (Responsive Design mit Bootstrap, Less & Sass)",
+                edu3Date: "2024",
+                edu3Subtitle: "34-stündiger internationaler Kurs",
+                edu3Description: "Ich habe das Tehran Institute of Technology mit 98/100 als Jahrgangsbester und einem großen Projekt als Abschlussprüfung abgeschlossen.",
+                edu4Title: "Webdesign III (JavaScript & jQuery & Ajax)",
+                edu4Date: "2025",
+                edu4Subtitle: "58-stündiger internationaler Kurs (Im Gange)",
+                edu4Description: "Dieser Kurs ist noch im Gange und wird in einem Monat abgeschlossen sein. Das Zertifikat wird verliehen, sobald das vollständige Projekt eingereicht wurde.",
+                freelanceTitle: "Erfahrung",
+                job1Title: "Selenweb",
+                job1Date: "März 2024",
+                job1Subtitle: "WordPress-Entwickler, Logo-Designer, UI/UX-Designer",
+                job1Description: "UI/UX-Design, Erstellung eines individuellen Logos, Entwicklung der Website mit WordPress und Leistungsoptimierung.",
+                job2Title: "KarejBoxing",
+                job2Date: "Okt 2024",
+                job2Subtitle: "WordPress-Entwickler, Logo-Designer, UI/UX-Designer",
+                job2Description: "UI/UX-Design, Erstellung eines individuellen Logos, Entwicklung der Website mit WordPress und Leistungsoptimierung.",
+                job3Title: "Forcemuscle",
+                job3Date: "Nov 2024",
+                job3Subtitle: "Frontend-Entwickler / WordPress-Entwickler",
+                job3Description: "Analyse und Behebung von Problemen im Code einer bestehenden Website, Verbesserung der Website-Performance und Funktionalität.",
+                projectsTitle: "Projekte",
+                project1Title: "Microsoft",
+                project1Desc: "Entwicklung einer vollständig responsiven Website mit Sass, Flexbox und Media Queries. Einsatz von Compass zur vereinfachten CSS-Verwaltung und CSS-Nesting für bessere Organisation. CSS-Optimierung durch Komprimierung der Stylesheets für schnellere Ladezeiten.",
+                project2Title: "Apple",
+                project2Desc: "Entwicklung einer vollständig responsiven Website mit Sass, Flexbox und Media Queries. Einsatz von Compass zur vereinfachten CSS-Verwaltung und CSS-Nesting für bessere Organisation. CSS-Optimierung durch Komprimierung der Stylesheets für schnellere Ladezeiten."
+            }
+        };
+
+        // DOM Elements
+        const languageSelection = document.getElementById('languageSelection');
+        const cvContent = document.getElementById('cvContent');
+        const languageBtns = document.querySelectorAll('.language-btn');
+        const langSwitcherBtns = document.querySelectorAll('.lang-btn');
+        const themeToggle = document.getElementById('themeToggle');
+        const cursor = document.getElementById('cursor');
+        const cursorFollower = document.getElementById('cursorFollower');
+        const particlesContainer = document.getElementById('particles');
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Custom cursor functionality
+        function initCursor() {
+            // Only initialize cursor on desktop
+            if (window.innerWidth >= 769) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                    
+                    setTimeout(() => {
+                        cursorFollower.style.left = e.clientX + 'px';
+                        cursorFollower.style.top = e.clientY + 'px';
+                    }, 100);
+                });
+
+                // Add hover effect to interactive elements
+                const interactiveElements = document.querySelectorAll('button, .nav-item, .project-card, .skill-category, .language-item');
+                
+                interactiveElements.forEach(element => {
+                    element.addEventListener('mouseenter', () => {
+                        cursor.classList.add('hover');
+                        cursorFollower.classList.add('hover');
+                    });
+                    
+                    element.addEventListener('mouseleave', () => {
+                        cursor.classList.remove('hover');
+                        cursorFollower.classList.remove('hover');
+                    });
+                });
+            } else {
+                // Hide custom cursor on mobile/tablet
+                cursor.style.display = 'none';
+                cursorFollower.style.display = 'none';
+            }
+        }
+
+        // Theme toggle functionality
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Navigation functionality
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                const targetSection = document.getElementById(sectionId);
+                
+                // Update active nav item
+                navItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Scroll to section
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Update active nav item on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 300)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Function to set language
+        function setLanguage(lang) {
+            // Update text content based on selected language
+            document.getElementById('name').textContent = content[lang].name;
+            document.getElementById('title').textContent = content[lang].title;
+            document.getElementById('birthday').textContent = content[lang].birthday;
+            document.getElementById('phone').textContent = content[lang].phone;
+            document.getElementById('email').textContent = content[lang].email;
+            document.getElementById('aboutText').textContent = content[lang].aboutText;
+            document.getElementById('skillsTitle').textContent = content[lang].skillsTitle;
+            document.getElementById('programmingTitle').textContent = content[lang].programmingTitle;
+            document.getElementById('frameworksTitle').textContent = content[lang].frameworksTitle;
+            document.getElementById('designTitle').textContent = content[lang].designTitle;
+            document.getElementById('toolsTitle').textContent = content[lang].toolsTitle;
+            document.getElementById('languagesTitle').textContent = content[lang].languagesTitle;
+            document.getElementById('educationTitle').textContent = content[lang].educationTitle;
+            document.getElementById('edu1Title').textContent = content[lang].edu1Title;
+            document.getElementById('edu1Date').textContent = content[lang].edu1Date;
+            document.getElementById('edu1Subtitle').textContent = content[lang].edu1Subtitle;
+            document.getElementById('edu1Description').textContent = content[lang].edu1Description;
+            document.getElementById('edu2Title').textContent = content[lang].edu2Title;
+            document.getElementById('edu2Date').textContent = content[lang].edu2Date;
+            document.getElementById('edu2Subtitle').textContent = content[lang].edu2Subtitle;
+            document.getElementById('edu2Description').textContent = content[lang].edu2Description;
+            document.getElementById('edu3Title').textContent = content[lang].edu3Title;
+            document.getElementById('edu3Date').textContent = content[lang].edu3Date;
+            document.getElementById('edu3Subtitle').textContent = content[lang].edu3Subtitle;
+            document.getElementById('edu3Description').textContent = content[lang].edu3Description;
+            document.getElementById('edu4Title').textContent = content[lang].edu4Title;
+            document.getElementById('edu4Date').textContent = content[lang].edu4Date;
+            document.getElementById('edu4Subtitle').textContent = content[lang].edu4Subtitle;
+            document.getElementById('edu4Description').textContent = content[lang].edu4Description;
+            document.getElementById('freelanceTitle').textContent = content[lang].freelanceTitle;
+            document.getElementById('job1Title').textContent = content[lang].job1Title;
+            document.getElementById('job1Date').textContent = content[lang].job1Date;
+            document.getElementById('job1Subtitle').textContent = content[lang].job1Subtitle;
+            document.getElementById('job1Description').textContent = content[lang].job1Description;
+            document.getElementById('job2Title').textContent = content[lang].job2Title;
+            document.getElementById('job2Date').textContent = content[lang].job2Date;
+            document.getElementById('job2Subtitle').textContent = content[lang].job2Subtitle;
+            document.getElementById('job2Description').textContent = content[lang].job2Description;
+            document.getElementById('job3Title').textContent = content[lang].job3Title;
+            document.getElementById('job3Date').textContent = content[lang].job3Date;
+            document.getElementById('job3Subtitle').textContent = content[lang].job3Subtitle;
+            document.getElementById('job3Description').textContent = content[lang].job3Description;
+            document.getElementById('projectsTitle').textContent = content[lang].projectsTitle;
+            document.getElementById('project1Title').textContent = content[lang].project1Title;
+            document.getElementById('project1Desc').textContent = content[lang].project1Desc;
+            document.getElementById('project2Title').textContent = content[lang].project2Title;
+            document.getElementById('project2Desc').textContent = content[lang].project2Desc;
+
+            // Show CV content and hide language selection
+            languageSelection.style.display = 'none';
+            cvContent.style.display = 'block';
+        }
+
+        // Event listeners for initial language selection
+        languageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
+        // Event listeners for language switcher
+        langSwitcherBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initCursor();
+        });
+
+        // Reinitialize cursor on window resize
+        window.addEventListener('resize', initCursor);
+    </script>
+</body>
+</html>
